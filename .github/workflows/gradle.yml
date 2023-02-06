@@ -48,6 +48,13 @@ jobs:
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./practice-deploy.zip s3://$S3_BUCKET_NAME/practice-deploy.zip
 
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name be-25-kyeonju23
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name be-25-kyeonju23-group
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-deploy.zip
+
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
 
